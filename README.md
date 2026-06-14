@@ -10,9 +10,9 @@
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/patilhemanshu28)
 [![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/hemanshu._.06)
 [![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://hemanshu-portfolio.vercel.app/)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:hemanshuypatil@gmail.com)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:hemanshulabs@gmail.com)
 
-![Profile Views](https://komarev.com/ghpvc/?username=HemanshuYPatil&color=blueviolet&style=for-the-badge)
+![Profile Views](https://komarev.com/ghpvc/?username=hemanshulabs&color=blueviolet&style=for-the-badge)
 
 </div>
 
@@ -93,16 +93,16 @@ const hemanshu = {
 ## 📊 GitHub Statistics
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=HemanshuYPatil&show_icons=true&theme=onedark&hide_border=true" height="180" alt="stats graph" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=HemanshuYPatil&layout=compact&theme=onedark&hide_border=true" height="180" alt="languages graph" />
+  <img src="https://github-readme-stats.vercel.app/api?username=hemanshulabs&show_icons=true&theme=onedark&hide_border=true" height="180" alt="stats graph" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=hemanshulabs&layout=compact&theme=onedark&hide_border=true" height="180" alt="languages graph" />
 </div>
 
 <div align="center">
-  <img src="https://streak-stats.demolab.com?user=HemanshuYPatil&theme=onedark&hide_border=true" alt="GitHub Streak" />
+  <img src="https://streak-stats.demolab.com?user=hemanshulabs&theme=onedark&hide_border=true" alt="GitHub Streak" />
 </div>
 
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=HemanshuYPatil&theme=one-dark&hide_border=true" alt="Contribution Graph" />
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=hemanshulabs&theme=one-dark&hide_border=true" alt="Contribution Graph" />
 </div>
 
 ---
@@ -110,7 +110,7 @@ const hemanshu = {
 ## 🏆 GitHub Trophies
 
 <div align="center">
-  <img src="https://github-profile-trophy.screw-hand.vercel.app/?username=HemanshuYPatil&theme=onedark&no-frame=true&no-bg=false&column=7&margin-w=15&margin-h=15" alt="GitHub Trophies" />
+  <img src="https://github-profile-trophy.screw-hand.vercel.app/?username=hemanshulabs&theme=onedark&no-frame=true&no-bg=false&column=7&margin-w=15&margin-h=15" alt="GitHub Trophies" />
 </div>
 
 ---
