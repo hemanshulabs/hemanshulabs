@@ -55,18 +55,31 @@ class ProfileUpdateTests(unittest.TestCase):
                                      len('. Website.Personal:'), 60)
 
     def test_stars_include_every_repository_page(self):
-        def page(stars, cursor, has_next):
-            return Mock(json=lambda: {'data': {'user': {'repositories': {
-                'totalCount': 101,
-                'edges': [{'node': {'stargazers': {'totalCount': stars}}}],
-                'pageInfo': {'endCursor': cursor, 'hasNextPage': has_next},
-            }}}})
+        def page(stars, has_next):
+            return Mock(json=lambda: [{'stargazers_count': stars}],
+                        links={'next': {}} if has_next else {})
 
-        with patch.object(today, 'simple_request', side_effect=[
-            page(400, 'next-page', True), page(56, 'last-page', False)
-        ]) as request:
+        with patch.object(today.requests, 'get', side_effect=[
+            page(400, True), page(56, False)
+        ]) as request, patch.object(today, 'simple_request') as graphql:
             self.assertEqual(today.graph_repos_stars('stars', ['OWNER']), 456)
-            self.assertEqual(request.call_args_list[1].args[2]['cursor'], 'next-page')
+            self.assertEqual(request.call_args_list[1].kwargs['params']['page'], 2)
+            self.assertNotIn('headers', request.call_args.kwargs)
+            graphql.assert_not_called()
+
+    def test_repository_count_does_not_request_restricted_star_fields(self):
+        response = Mock(json=lambda: {'data': {'user': {'repositories': {'totalCount': 79}}}})
+        with patch.object(today, 'simple_request', return_value=response) as request:
+            self.assertEqual(today.graph_repos_stars('repos', ['OWNER']), 79)
+            self.assertNotIn('stargazers', request.call_args.args[1])
+            self.assertNotIn('edges', request.call_args.args[1])
+
+    def test_star_request_errors_do_not_publish_zero_totals(self):
+        response = Mock()
+        response.raise_for_status.side_effect = today.requests.HTTPError('Rate limit')
+        with patch.object(today.requests, 'get', return_value=response):
+            with self.assertRaises(today.requests.HTTPError):
+                today.public_stars()
 
     def test_graphql_errors_stop_updates_even_with_http_200(self):
         response = Mock(status_code=200)

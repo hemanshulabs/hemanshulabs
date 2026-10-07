@@ -72,45 +72,44 @@ def graph_commits(start_date, end_date):
     return int(request.json()['data']['user']['contributionsCollection']['contributionCalendar']['totalContributions'])
 
 
-def graph_repos_stars(count_type, owner_affiliation, cursor=None, total_stars=0):
+def public_stars():
+    """Read owned public repositories' star totals without integration permissions."""
+    page = 1
+    total = 0
+    while True:
+        response = requests.get(
+            f'https://api.github.com/users/{USER_NAME}/repos',
+            params={'type': 'owner', 'per_page': 100, 'page': page},
+            timeout=60,
+        )
+        response.raise_for_status()
+        total += sum(repo['stargazers_count'] for repo in response.json())
+        if 'next' not in response.links:
+            return total
+        page += 1
+
+
+def graph_repos_stars(count_type, owner_affiliation):
     """
-    Uses GitHub's GraphQL v4 API to return my total repository, star, or lines of code count.
+    Count repositories through GraphQL and public stars through REST.
     """
+    if count_type == 'stars':
+        return public_stars()
+    if count_type != 'repos':
+        raise ValueError(f'Unknown repository count type: {count_type}')
     query_count('graph_repos_stars')
     query = '''
-    query ($owner_affiliation: [RepositoryAffiliation], $login: String!, $cursor: String) {
+    query ($owner_affiliation: [RepositoryAffiliation], $login: String!) {
         user(login: $login) {
-            repositories(first: 100, after: $cursor, ownerAffiliations: $owner_affiliation) {
+            repositories(ownerAffiliations: $owner_affiliation) {
                 totalCount
-                edges {
-                    node {
-                        ... on Repository {
-                            nameWithOwner
-                            stargazers {
-                                totalCount
-                            }
-                        }
-                    }
-                }
-                pageInfo {
-                    endCursor
-                    hasNextPage
-                }
             }
         }
     }'''
-    variables = {'owner_affiliation': owner_affiliation, 'login': USER_NAME, 'cursor': cursor}
+    variables = {'owner_affiliation': owner_affiliation, 'login': USER_NAME}
     request = simple_request(graph_repos_stars.__name__, query, variables)
     repositories = request.json()['data']['user']['repositories']
-    if count_type == 'repos':
-        return repositories['totalCount']
-    if count_type == 'stars':
-        total_stars += stars_counter(repositories['edges'])
-        if repositories['pageInfo']['hasNextPage']:
-            return graph_repos_stars(count_type, owner_affiliation,
-                                     repositories['pageInfo']['endCursor'], total_stars)
-        return total_stars
-    raise ValueError(f'Unknown repository count type: {count_type}')
+    return repositories['totalCount']
 
 
 def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, deletion_total=0, my_commits=0, cursor=None):
