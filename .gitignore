@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.venv/
+docs/
+cache/repository_archive.txt
+cache/9bd204c0530f81346837f038cdc22e3edcbd4c38ecbbc13fdc2a57c064f18f54.txt
